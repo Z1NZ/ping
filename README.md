@@ -5,7 +5,7 @@
 
 The goal of this project is to make you recode the Ping command and to have you step a foot in the wondrous world of network.
 
-![](header.png)
+<img src="https://media.giphy.com/media/4EEIVF8KxOq4pGrIoQ/giphy.gif"/>
 
 ## Installation
 
