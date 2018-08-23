@@ -1,11 +1,11 @@
-#include <ft_ping.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <errno.h>
 
 int ft_error(void)
 {
-	if (errno == 0)
-		fprintf(stderr, "%s", "Unknown error");
-	else
-		fprintf(stderr, "%s", strerror(errno));
+	fprintf(stderr, "%s", strerror(errno));
 	exit(-1);
 }
 

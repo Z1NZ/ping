@@ -1,4 +1,6 @@
-#include <ft_ping.h>
+#include <libft.h>
+#include <sys/types.h>
+#include <netinet/ip_icmp.h>
 
 u_short ft_in_cksum(unsigned short *addr, int len)
 {
