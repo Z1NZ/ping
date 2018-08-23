@@ -1,6 +1,6 @@
-#include <libft.h>
 #include <sys/types.h>
 #include <netinet/ip_icmp.h>
+#include <string.h>
 
 u_short ft_in_cksum(unsigned short *addr, int len)
 {
@@ -35,9 +35,9 @@ u_short ft_cksum(struct icmp *hdr)
 {
 	char tmp[65535];
 	u_short checksum;
-	ft_memcpy(tmp, (unsigned short *)&hdr, sizeof(struct icmp));
-	ft_memcpy(tmp + sizeof(struct icmp), tmp, ft_strlen(tmp));
+	memcpy(tmp, (unsigned short *)&hdr, sizeof(struct icmp));
+	memcpy(tmp + sizeof(struct icmp), tmp, strlen(tmp));
 	checksum = ft_in_cksum((unsigned short *)tmp,
-						   sizeof(struct icmp) + (u_short)ft_strlen(tmp));
+						   sizeof(struct icmp) + (u_short)strlen(tmp));
 	return (checksum);
 }

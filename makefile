@@ -1,6 +1,6 @@
 CFLAG = -Wall -Wextra -Werror
 
-LDFLAGS = -I./includes/ -I./libft/includes -lncurses
+LDFLAGS = -I./includes/ -lncurses
 
 RM = rm -f
 
@@ -17,13 +17,12 @@ SRCS	= $(addprefix $(SRCDIR), $(SRC))
 all : $(NAME)
 
 $(NAME):
-	make -C libft/
-	@$(CC) $(CFLAG) $(SRCS) $(LDFLAGS) -L./libft -lft -o $(NAME) 
+	@$(CC) $(CFLAG) $(SRCS) $(LDFLAGS) -o $(NAME) 
+
 clean:
-	make clean -C libft/
 	@$(RM) $(OBJS) 
+
 fclean: clean
-	make fclean -C libft/
 	@$(RM) $(NAME)
 re: fclean all
 

@@ -5,7 +5,7 @@ static void ft_opt_i(char *option)
 	char *tmp;
 
 	tmp = option;
-	while (ft_isdigit(*tmp) == 1)
+	while (isdigit(*tmp) == 1)
 		tmp++;
 	if (*tmp != '\0') {
 		fprintf(stderr, "%s", "ping: bad timing interval");
@@ -19,7 +19,7 @@ static void ft_opt_t(char *option)
 	char *tmp;
 
 	tmp = option;
-	while (ft_isdigit(*tmp))
+	while (isdigit(*tmp))
 		tmp++;
 	if (*tmp != '\0') {
 		fprintf(stderr, "%s",

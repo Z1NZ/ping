@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #include <arpa/inet.h>
 #include <curses.h>
 #include <errno.h>
-#include <libft.h>
 #include <net/if.h>
 #include <netdb.h>
 #include <netinet/in.h>

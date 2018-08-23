@@ -33,7 +33,7 @@ struct addrinfo *ft_get_info(char *ptr, int opt)
 		fprintf(stderr, "Usage: <ip>\n");
 		exit(-1);
 	}
-	ft_memset(&hints, 0, sizeof(struct addrinfo));
+	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_CANONNAME;
@@ -46,7 +46,7 @@ struct addrinfo *ft_get_info(char *ptr, int opt)
 	}
 	h = (struct sockaddr_in *)(void *)result->ai_addr;
 	g_env.name = inet_ntoa(h->sin_addr);
-	g_env.pack = (struct packet *)ft_memalloc(sizeof(struct packet));
+	g_env.pack = (struct packet *)calloc(sizeof(struct packet), 1);
 	return (result);
 }
 
