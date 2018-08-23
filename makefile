@@ -20,8 +20,10 @@ $(NAME):
 	make -C libft/
 	@$(CC) $(SRCS) $(LDFLAGS) -L./libft -lft -o $(NAME) 
 clean:
+	make clean -C libft/
 	@$(RM) $(OBJS) 
 fclean: clean
+	make fclean -C libft/
 	@$(RM) $(NAME)
 re: fclean all
 
