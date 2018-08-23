@@ -38,23 +38,23 @@
 
 typedef struct			s_env
 {
-	unsigned long int	error;
-	int					opt;
-	int					ttl;
-	int					interval;
-	long int			sd;
-	unsigned long int	seq;
-	unsigned long int	recvpack;
-	char				*name;
 	struct addrinfo		*pinfo;
 	struct packet		*pack;
-	char				*host;
-	u_long				timer;
+	struct timeval		tr;
+	unsigned long int	error;
+	unsigned long int	seq;
+	unsigned long int	recvpack;
 	unsigned long		tmin;
 	unsigned long		tmax;
+	u_long				timer;
 	u_long				tsum;
 	u_long				tsum2;
-	struct timeval		tr;
+	int					sd;
+	int					opt;
+	int					ttl;
+	unsigned int		interval;
+	char				*name;
+	char				*host;
 }						t_env;
 
 struct					packet
@@ -70,7 +70,7 @@ struct					recv_packet
 	char				msg[PACKETSIZE-(sizeof(struct icmphdr) + sizeof( struct iphdr))];
 };
 
-t_env g_env;
+static t_env g_env;
 
 /*
 ** opt
@@ -86,6 +86,6 @@ int						ft_ping(int opt, char *ptr);
 /*
 ** error
 */
-void					ft_error(void);
-void					ft_how_use(void);
+int					ft_error(void);
+int					ft_how_use(void);
 

@@ -3,24 +3,25 @@
 #include <math.h>
 
 
-uint64_t mysqrt (uint64_t a)
+static uint64_t	mysqrt(uint64_t a)
 {
-  uint64_t min = 0;
-  uint64_t max = ((uint64_t) 1) << 32;
-  while(1)
-    {
-       if (max <= 1 + min)
-         return min;           
-       uint64_t sqt = min + (max - min)/2;
-       uint64_t sq = sqt*sqt;
-       if (sq == a) 
-         return sqt;
+	uint64_t min = 0;
+	uint64_t max = ((uint64_t) 1) << 32;
+	
+	while(1)
+	{
+		if (max <= 1 + min)
+			return min;           
+		uint64_t sqt = min + (max - min)/2;
+		uint64_t sq = sqt*sqt;
+		if (sq == a) 
+			return sqt;
 
-       if (sq > a)
-         max = sqt;
-       else
-         min = sqt;
- 	}
+		if (sq > a)
+			max = sqt;
+		else
+			min = sqt;
+	}
 }
 
 struct addrinfo *ft_get_info(char *ptr, int opt)
@@ -49,13 +50,13 @@ struct addrinfo *ft_get_info(char *ptr, int opt)
 		else
 			ft_error();
 	}
-	h = (struct sockaddr_in *) result->ai_addr;
+	h = (struct sockaddr_in *) (void *)result->ai_addr;
 	g_env.name =  inet_ntoa( h->sin_addr );
 	g_env.pack = (struct packet*)ft_memalloc(sizeof(struct packet));
 	return(result);
 }
 
-void	tvsub(struct timeval *out, struct timeval*in)
+static void	tvsub(struct timeval *out, struct timeval*in)
 {
 	if( (out->tv_usec -= in->tv_usec) < 0 )   {
 		out->tv_sec--;
@@ -97,7 +98,7 @@ static void ft_out(int i)
 	}
 	if (g_env.recvpack == 0)
 		exit(1);
-	exit (0);
+	exit(0);
 }
 
 static void	ft_ping_old(int i)
@@ -106,7 +107,7 @@ static void	ft_ping_old(int i)
 	double tmp;
 	(void)i;
 	g_env.seq++;
-	int len;
+	ssize_t len;
 	struct sockaddr_in server;
 	struct  msghdr msg;
 	struct iovec iov[1]; /* Data array */
@@ -116,16 +117,15 @@ static void	ft_ping_old(int i)
 	memset(&msg, '\0', sizeof(msg));
 	memset(g_env.pack, '\0', (sizeof(struct packet)));
 	g_env.pack->hdr.type = ICMP_ECHOREQ;
-	g_env.pack->hdr.un.echo.id = getpid();
-	g_env.pack->hdr.un.echo.sequence = g_env.seq;
+	g_env.pack->hdr.un.echo.id = (u_int16_t)getpid();
+	g_env.pack->hdr.un.echo.sequence = (unsigned short)g_env.seq;
 	g_env.pack->hdr.checksum =  ft_in_cksum((unsigned short*)g_env.pack, sizeof(struct packet));
-	server.sin_family = g_env.pinfo->ai_family;
+	server.sin_family = (unsigned short)g_env.pinfo->ai_family;
 	inet_pton(AF_INET, g_env.name, &server.sin_addr);
 	iov[0].iov_base = &(g_env.pack->hdr);
 	iov[0].iov_len = sizeof(*g_env.pack);
 	msg.msg_iov = iov;
 	msg.msg_iovlen = 1;
-	len = 0;
 	gettimeofday( &tp, NULL);
 	if (sendto (g_env.sd, g_env.pack, PACKETSIZE, 0, (struct sockaddr *) &server, sizeof (struct sockaddr)) < 0)
 	{
@@ -138,7 +138,7 @@ static void	ft_ping_old(int i)
 		struct timeval tb;
 		gettimeofday(&tb, NULL);
 		tvsub(&tb, &(g_env.tr));
-		g_env.timer += tb.tv_sec * 10000000L + tb.tv_usec; 
+		g_env.timer += (unsigned long)(tb.tv_sec * 10000000L + tb.tv_usec); 
 	}
 	alarm(2);
 	jump:
@@ -173,11 +173,11 @@ static void	ft_ping_old(int i)
 				if (!CHECK_BIT(g_env.opt, OPT_Q))
 					printf("%zd bytes from %s: icmp_seq=%u ttl=%d time=%.2fms\n", msg.msg_iov[0].iov_len, g_env.name, p->hdr.icmp_hun.ih_idseq.icd_seq, p->ip.ip_ttl, tmp/1000);
 				g_env.tsum += tmp;
-				g_env.tsum2 += (long long)tmp * (long long)tmp;
+				g_env.tsum2 += (unsigned long long)tmp * (unsigned long long)tmp;
 				if (tmp < g_env.tmin)
-						g_env.tmin = tmp;
+						g_env.tmin = (unsigned long)tmp;
 				if (tmp > g_env.tmax)
-						g_env.tmax = tmp;
+						g_env.tmax = (unsigned long)tmp;
 				if (CHECK_BIT(g_env.opt, OPT_A))
 					beep();
 			}

@@ -2,9 +2,10 @@
 
 u_short		ft_in_cksum(unsigned short *addr, int len)
 {
-	int nleft, sum;
-	u_short *w;
-	u_short answer;
+	int		nleft;
+	u_short	sum;
+	u_short	*w;
+	u_short	answer;
 	union{
 		u_short us;
 		u_char	uc[2];
@@ -20,7 +21,7 @@ u_short		ft_in_cksum(unsigned short *addr, int len)
 	}
 	if (nleft == 1)
 	{
-		last.uc[0] = *w;
+		last.us = *w;
 		last.uc[1] = 0;
 		sum += last.us;
 
@@ -38,6 +39,6 @@ u_short		ft_cksum(struct icmp *hdr)
 	ft_memcpy(tmp, (unsigned short*)&hdr,sizeof(struct icmp));
 	ft_memcpy(tmp + sizeof(struct icmp),tmp , ft_strlen(tmp));
 	checksum = ft_in_cksum((unsigned short*)tmp,sizeof(struct icmp)
-		+ ft_strlen(tmp));
+		+ (u_short)ft_strlen(tmp));
 	return(checksum);
 }

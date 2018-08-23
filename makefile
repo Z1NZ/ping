@@ -1,4 +1,4 @@
-CC    = gcc  -Wall -Wextra -Werror
+CC    = clang  -Wall -Wextra -Werror
 
 LDFLAGS	= -I./includes/ -I./libft/includes -lncurses
 

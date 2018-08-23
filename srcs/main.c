@@ -1,6 +1,6 @@
 #include <ft_ping.h>
 
-void	ft_opt_i(char *option)
+static void	ft_opt_i(char *option)
 {
 	char *tmp;
 
@@ -13,10 +13,10 @@ void	ft_opt_i(char *option)
 		exit(-1);
 	}
 	else
-		g_env.interval = atoi(option);
+		g_env.interval = (unsigned int)atoi(option);
 }
 
-void	ft_opt_t(char *option)
+static void	ft_opt_t(char *option)
 {
 	char *tmp;
 
@@ -33,7 +33,7 @@ void	ft_opt_t(char *option)
 }
 
 
-int		ft_option(char ***option)
+int			ft_option(char ***option)
 {
 	int	opt;
 
@@ -82,12 +82,11 @@ int		ft_option(char ***option)
 }
 
 
-int main(int argc, char *argv[])
+int			main(int argc, char *argv[])
 {
 	int opt;
 	char **ptr;
 
-	opt = 0;
 	if (argc > 1)
 	{
 		if (argv[1][0] == '-')

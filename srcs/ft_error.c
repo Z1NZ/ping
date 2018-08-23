@@ -1,6 +1,6 @@
 #include <ft_ping.h>
 
-void	ft_error(void)
+int	ft_error(void)
 {
 	if (errno == 0)
 		fprintf(stderr ,"%s", "Unknown error");
@@ -9,10 +9,10 @@ void	ft_error(void)
 	exit(-1);
 }
 
-void	ft_how_use(void)
+int	ft_how_use(void)
 {
 	printf("%s\n", "Usage: ping [-ahvq] [-i interval] [-t ttl] destination\n");
-	exit(-1);	
+	exit(-1);
 }
 
 /*
