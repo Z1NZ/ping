@@ -5,7 +5,7 @@ void	ft_error(void)
 	if (errno == 0)
 		fprintf(stderr ,"%s", "Unknown error");
 	else
-		fprintf(stderr ,"%s", sys_errlist[errno]);
+		fprintf(stderr ,"%s", strerror(errno));
 	exit(-1);
 }
 

@@ -96,9 +96,9 @@ int main(int argc, char *argv[])
 			if ((opt = ft_option(&ptr)) < 0)
 			{
 				if (opt == -1)
-					fprintf(stderr ,"ping: -%c flag: %s\n", *argv[1], sys_errlist[1]);
+					fprintf(stderr ,"ping: -%c flag: %s\n", *argv[1], strerror(1));
 				else
-					fprintf(stderr ,"ping: %s\n", sys_errlist[1]);
+					fprintf(stderr ,"ping: %s\n", strerror(1));
 				exit(-1);
 			}
 			ft_ping(opt, *ptr);
@@ -107,6 +107,6 @@ int main(int argc, char *argv[])
 			ft_ping(0 , argv[1]);
 	}
 	else
-		fprintf(stderr ,"%s\n", sys_errlist[22]);
+		fprintf(stderr ,"%s\n", strerror(22));
 	return 0;
 }
