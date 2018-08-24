@@ -2,6 +2,7 @@
 > our version of ping.
 
 [![Build Status](https://travis-ci.org/Z1NZ/ping.svg?branch=master)](https://travis-ci.org/Z1NZ/ping)
+<a href="https://scan.coverity.com/projects/z1nz-ping"> <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16564/badge.svg"/> </a>
 
 The goal of this project is to make you recode the Ping command and to have you step a foot in the wondrous world of network.
 
