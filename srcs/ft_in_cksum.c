@@ -35,7 +35,7 @@ u_short ft_cksum(struct icmp *hdr)
 {
 	char tmp[65535];
 	u_short checksum;
-	memcpy(tmp, (unsigned short *)&hdr, sizeof(struct icmp));
+	memcpy(tmp, &hdr, sizeof(struct icmp));
 	memcpy(tmp + sizeof(struct icmp), tmp, strlen(tmp));
 	checksum = ft_in_cksum((unsigned short *)tmp,
 						   sizeof(struct icmp) + (u_short)strlen(tmp));

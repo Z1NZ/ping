@@ -1,10 +1,34 @@
 language: c
+os : linux
 sudo: false
 dist: trusty
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "UMaDEDiYvbKrm8xtHE31uZ5seEsA8J+zn0RqnyRQFiML5owoEz5ghEJ4a6aeuRhiMW8w+/vlJsw98OsQxHEDN5opiFU4h1w8Vd3oxJp0h921i9x3IYaQmWNJTfPDnsfZy9B+lksE8IrjNFquq3jLGc/xQhxTxvAQdAkYM3Tt+FlDOuk4ZZznxhVTBimgxK7hAHaI2HBOwfKYhS+YCHimLE89AqFvnq+RlGjLdn1Bpi02DyFTNLjXdkKDd6fQwNRKegrcUEUPMgXUfqStoeORjV0eGR//kNrJu+KE1JeBpawYPwxjAfAaeBmw+HTwrymJ3LRyi8dK7ZvOfLMW7in60zxUnYZH8ucgO19PPkGQL0i7DgFlhEdw/OO/+tZvYnfoqX/GAWcBZoJMAnXZR4g2K23owU5iKyEHkHV/h86d+dqP2jM1yMXezZLvwzYLFtN0Ec2l9aF2xk1ODe6S8z8+IP7lHWxD/y3PZH4N9YRBzLPr7vj1wOszn4yUfqDo9j8n7deMLe9f5fkcSPGI9Gz1lQs8TuuyyXOVFOjjHyqfpXliXPQQ0iP9CPKvJUAhuKXj3N/zNwwNgqe5eENahAn79fYgZ67PH5GpbK8cNbhXsQei/wts2UXrHnmeXilaDF6mND0Omj3sfBqUCeHWFRxMXEHlODgWoqb5OXl82UukxBE="
 script:
   - scan-build -v make
   - make fclean
-  - scan-build -v --status-bugs -analyze-headers make
+  - scan-build -v --status-bugs -analyze-headers  make
+
+addons:
+  apt:
+    packages:
+      - cmake
+      - g++-4.8
+  coverity_scan:
+    project:
+      name: "Z1NZ/ping"
+      description: "Build submitted via Travis CI"
+    notification_email: sofiane.rabah@gmail.com
+    build_command_prepend: ""
+    build_command: "make"
+    branch_pattern: master
+  before_install:
+    - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+
 
 matrix:
   include:
@@ -125,23 +149,3 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
-
-
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "LNPAb4sW6s7Zz5P9jtH43qdiExdYMnGEnMOepiwTdPfIqlWdZgkqdWrSyjf++/+r/aZ9oi6cHZPdOomzNymCZpbxVbrbJGqOl4euDCpgtiYJe3E4SBPHEyLdvmobM+NXytghD4/g9n8f2Pyg8SQVMTWpptzN6gX/fdR/7OvBwurWI6S6HYLx58aR4BXDanqUlXC/1nqMkC/Fug6xq8TG+Jxs1uL+pGUXtzu4okLk9PPwNh7U8aQbI6wjAK3e0naJ/7wxZuVW7IJKsoorBIATAVg/2zJyI4nTAXJnBzeRhWz6coOFuD7KEJnymMwPW9Ej73R8FvMYCKT5DQnPd8KR9XjjWawLbREdML0U+AFvL7kR1m2ohk2oJQ9aZbj8AE7yoH3ggq0W8a/e5EVK73M6Wa8BEjo5NHAQdYq0qfDKwUbq57GKR23Hwi0XMgBRNltfYy7HGcwqLsajX+F6hHnGf1qWuqAXlRmCTGY5ZT6JhzEoEzLm8CSxuLoaRhbIB/qDc88HeYINXE+tdmHWBl9nh6C1KZ4sdYEDxrUW4AEwljaI63eFK0OiprD3doOFpcTlvnD5eb+Dhv4SiQJwnMEciFYkEZTs7BO0A2Gd+X09rocKQEe+sFy8LYSmKXQE5oQlACl+QZa72VMOr/RSRtEgLnZHCR8tw3MH80VoDw8Ufb0="
-
-before_install:
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
-addons:
-  coverity_scan:
-    project:
-      name: "Z1NZ/ping"
-      description: "<Your project description here>"
-    notification_email: sofiane.rabah@gmail.com
-    build_command_prepend: ""
-    build_command: "make"
-    branch_pattern: coverity_scan
